@@ -15,6 +15,7 @@ var _ = DescribeTable("Fnv32a",
 	Entry("nil", ([]byte)(nil), uint32(0)),
 	Entry("blank", []byte{}, uint32(0)),
 	Entry("hello", []byte("hello"), uint32(1335831723)),
+	Entry("utf8", []byte("日本国"), uint32(2098335336)),
 )
 
 var _ = DescribeTable("Fnv64a",
@@ -24,6 +25,7 @@ var _ = DescribeTable("Fnv64a",
 	Entry("nil", ([]byte)(nil), uint64(0)),
 	Entry("blank", []byte{}, uint64(0)),
 	Entry("hello", []byte("hello"), uint64(11831194018420276491)),
+	Entry("utf8", []byte("日本国"), uint64(14277310999654806792)),
 )
 
 var _ = DescribeTable("Fnv32aString",
@@ -32,6 +34,7 @@ var _ = DescribeTable("Fnv32aString",
 	},
 	Entry("blank", "", uint32(0)),
 	Entry("hello", "hello", uint32(1335831723)),
+	Entry("utf8", "日本国", uint32(2098335336)),
 )
 
 var _ = DescribeTable("Fnv64aString",
@@ -40,6 +43,7 @@ var _ = DescribeTable("Fnv64aString",
 	},
 	Entry("blank", "", uint64(0)),
 	Entry("hello", "hello", uint64(11831194018420276491)),
+	Entry("utf8", "日本国", uint64(14277310999654806792)),
 )
 
 // --------------------------------------------------------------------

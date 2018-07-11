@@ -16,6 +16,7 @@ var _ = DescribeTable("MM32",
 	Entry("blank", []byte{}, uint32(0)),
 	Entry("hello", []byte("hello"), uint32(613153351)),
 	Entry("longer value", []byte("//tabs.ultimate-guitar.com/t/three_days_grace/painkiller_tab.htm"), uint32(2829525266)),
+	Entry("utf8", []byte("日本国"), uint32(2473588326)),
 )
 
 var _ = DescribeTable("MM32String",
@@ -25,6 +26,7 @@ var _ = DescribeTable("MM32String",
 	Entry("blank", "", uint32(0)),
 	Entry("hello", "hello", uint32(613153351)),
 	Entry("longer value", "//tabs.ultimate-guitar.com/t/three_days_grace/painkiller_tab.htm", uint32(2829525266)),
+	Entry("utf8", "日本国", uint32(2473588326)),
 )
 
 var _ = DescribeTable("MM64",
@@ -34,6 +36,7 @@ var _ = DescribeTable("MM64",
 	Entry("nil", ([]byte)(nil), uint64(0)),
 	Entry("blank", []byte{}, uint64(0)),
 	Entry("hello", []byte("hello"), uint64(14688674573012802306)),
+	Entry("utf8", []byte("日本国"), uint64(15494675815960301006)),
 )
 
 var _ = DescribeTable("MM64String",
@@ -42,6 +45,7 @@ var _ = DescribeTable("MM64String",
 	},
 	Entry("blank", "", uint64(0)),
 	Entry("hello", "hello", uint64(14688674573012802306)),
+	Entry("utf8", "日本国", uint64(15494675815960301006)),
 )
 
 var _ = DescribeTable("MM128",
@@ -54,6 +58,7 @@ var _ = DescribeTable("MM128",
 	Entry("blank", []byte{}, uint64(0), uint64(0)),
 	Entry("hello", []byte("hello"), uint64(14688674573012802306), uint64(6565844092913065241)),
 	Entry("longer value", []byte("//tabs.ultimate-guitar.com/t/three_days_grace/painkiller_tab.htm"), uint64(7923461173300967811), uint64(2180639483051343085)),
+	Entry("utf8", []byte("日本国"), uint64(15494675815960301006), uint64(6456422527984082000)),
 )
 
 var _ = DescribeTable("MM128String",
@@ -65,6 +70,7 @@ var _ = DescribeTable("MM128String",
 	Entry("blank", "", uint64(0), uint64(0)),
 	Entry("hello", "hello", uint64(14688674573012802306), uint64(6565844092913065241)),
 	Entry("longer value", "//tabs.ultimate-guitar.com/t/three_days_grace/painkiller_tab.htm", uint64(7923461173300967811), uint64(2180639483051343085)),
+	Entry("utf8", "日本国", uint64(15494675815960301006), uint64(6456422527984082000)),
 )
 
 // --------------------------------------------------------------------

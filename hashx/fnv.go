@@ -31,8 +31,8 @@ func Fnv64aString(s string) uint64 {
 	}
 
 	h := fnvOffset64
-	for _, c := range s {
-		h ^= uint64(c)
+	for i := 0; i < len(s); i++ {
+		h ^= uint64(s[i])
 		h *= fnvPrime64
 	}
 	return h
@@ -61,8 +61,8 @@ func Fnv32aString(s string) uint32 {
 	}
 
 	h := fnvOffset32
-	for _, c := range s {
-		h ^= uint32(c)
+	for i := 0; i < len(s); i++ {
+		h ^= uint32(s[i])
 		h *= fnvPrime32
 	}
 	return h

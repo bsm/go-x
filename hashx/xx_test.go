@@ -16,6 +16,7 @@ var _ = DescribeTable("XX32",
 	Entry("blank", []byte{}, uint32(0)),
 	Entry("hello", []byte("hello"), uint32(4211111929)),
 	Entry("longer value", []byte("//tabs.ultimate-guitar.com/t/three_days_grace/painkiller_tab.htm"), uint32(784213349)),
+	Entry("utf8", []byte("日本国"), uint32(187444576)),
 )
 
 var _ = DescribeTable("XX64",
@@ -25,6 +26,7 @@ var _ = DescribeTable("XX64",
 	Entry("nil", ([]byte)(nil), uint64(0)),
 	Entry("blank", []byte{}, uint64(0)),
 	Entry("hello", []byte("hello"), uint64(2794345569481354659)),
+	Entry("utf8", []byte("日本国"), uint64(8331024367628775902)),
 )
 
 // --------------------------------------------------------------------
