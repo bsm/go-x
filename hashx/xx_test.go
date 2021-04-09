@@ -19,6 +19,16 @@ var _ = DescribeTable("XX32",
 	Entry("utf8", []byte("日本国"), uint32(187444576)),
 )
 
+var _ = DescribeTable("XX32String",
+	func(s string, x uint32) {
+		Expect(XX32String(s, 0)).To(Equal(x))
+	},
+	Entry("blank", "", uint32(0)),
+	Entry("hello", "hello", uint32(4211111929)),
+	Entry("longer value", "//tabs.ultimate-guitar.com/t/three_days_grace/painkiller_tab.htm", uint32(784213349)),
+	Entry("utf8", "日本国", uint32(187444576)),
+)
+
 var _ = DescribeTable("XX64",
 	func(b []byte, x uint64) {
 		Expect(XX64(b, 0)).To(Equal(x))
@@ -29,6 +39,15 @@ var _ = DescribeTable("XX64",
 	Entry("utf8", []byte("日本国"), uint64(8331024367628775902)),
 )
 
+var _ = DescribeTable("XX64String",
+	func(s string, x uint64) {
+		Expect(XX64String(s, 0)).To(Equal(x))
+	},
+	Entry("blank", "", uint64(0)),
+	Entry("hello", "hello", uint64(2794345569481354659)),
+	Entry("utf8", "日本国", uint64(8331024367628775902)),
+)
+
 // --------------------------------------------------------------------
 
 func BenchmarkXX32(b *testing.B) {
@@ -37,11 +56,24 @@ func BenchmarkXX32(b *testing.B) {
 		XX32(p, 0)
 	}
 }
+func BenchmarkXX32String(b *testing.B) {
+	p := "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+	for i := 0; i < b.N; i++ {
+		XX32String(p, 0)
+	}
+}
 
 func BenchmarkXX64(b *testing.B) {
 	p := []byte("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 	for i := 0; i < b.N; i++ {
 		XX64(p, 0)
+	}
+}
+
+func BenchmarkXX64String(b *testing.B) {
+	p := "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+	for i := 0; i < b.N; i++ {
+		XX64String(p, 0)
 	}
 }
 
@@ -53,8 +85,20 @@ func ExampleXX32() {
 	// Output: 119031159
 }
 
+func ExampleXX32String() {
+	s := "One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin."
+	fmt.Println(XX32String(s, 0))
+	// Output: 119031159
+}
+
 func ExampleXX64() {
 	p := []byte("One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin.")
 	fmt.Println(XX64(p, 0))
+	// Output: 2399806787706828701
+}
+
+func ExampleXX64String() {
+	s := "One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin."
+	fmt.Println(XX64String(s, 0))
 	// Output: 2399806787706828701
 }
