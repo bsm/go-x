@@ -17,11 +17,11 @@ func MM32(data []byte) (h1 uint32) {
 		k1 := binary.LittleEndian.Uint32(data[b*4:])
 
 		k1 *= mm32C1
-		k1 = rol32_15(k1)
+		k1 = rol32(k1, 15)
 		k1 *= mm32C2
 
 		h1 ^= k1
-		h1 = rol32_13(h1)
+		h1 = rol32(h1, 13)
 		h1 = h1*5 + 0xe6546b64
 	}
 
@@ -38,7 +38,7 @@ func MM32(data []byte) (h1 uint32) {
 	case 1:
 		k1 ^= uint32(tail[0])
 		k1 *= mm32C1
-		k1 = rol32_15(k1)
+		k1 = rol32(k1, 15)
 		k1 *= mm32C2
 		h1 ^= k1
 	}
@@ -61,11 +61,11 @@ func MM32String(data string) (h1 uint32) {
 		k1 := u32s(data, b*4)
 
 		k1 *= mm32C1
-		k1 = rol32_15(k1)
+		k1 = rol32(k1, 15)
 		k1 *= mm32C2
 
 		h1 ^= k1
-		h1 = rol32_13(h1)
+		h1 = rol32(h1, 13)
 		h1 = h1*5 + 0xe6546b64
 	}
 
@@ -82,7 +82,7 @@ func MM32String(data string) (h1 uint32) {
 	case 1:
 		k1 ^= uint32(data[hlen+0])
 		k1 *= mm32C1
-		k1 = rol32_15(k1)
+		k1 = rol32(k1, 15)
 		k1 *= mm32C2
 		h1 ^= k1
 	}
@@ -118,20 +118,20 @@ func MM128(data []byte) (h1, h2 uint64) {
 		k2 := binary.LittleEndian.Uint64(data[b*16+8:])
 
 		k1 *= mm128C1
-		k1 = rol64_31(k1)
+		k1 = rol64(k1, 31)
 		k1 *= mm128C2
 		h1 ^= k1
 
-		h1 = rol64_27(h1)
+		h1 = rol64(h1, 27)
 		h1 += h2
 		h1 = h1*5 + 0x52dce729
 
 		k2 *= mm128C2
-		k2 = rol64_33(k2)
+		k2 = rol64(k2, 33)
 		k2 *= mm128C1
 		h2 ^= k2
 
-		h2 = rol64_31(h2)
+		h2 = rol64(h2, 31)
 		h2 += h1
 		h2 = h2*5 + 0x38495ab5
 	}
@@ -162,7 +162,7 @@ func MM128(data []byte) (h1, h2 uint64) {
 		k2 ^= uint64(tail[8]) << 0
 
 		k2 *= mm128C2
-		k2 = rol64_33(k2)
+		k2 = rol64(k2, 33)
 		k2 *= mm128C1
 		h2 ^= k2
 
@@ -191,7 +191,7 @@ func MM128(data []byte) (h1, h2 uint64) {
 	case 1:
 		k1 ^= uint64(tail[0]) << 0
 		k1 *= mm128C1
-		k1 = rol64_31(k1)
+		k1 = rol64(k1, 31)
 		k1 *= mm128C2
 		h1 ^= k1
 	}
@@ -219,20 +219,20 @@ func MM128String(data string) (h1, h2 uint64) {
 		k2 := u64s(data, b*16+8)
 
 		k1 *= mm128C1
-		k1 = rol64_31(k1)
+		k1 = rol64(k1, 31)
 		k1 *= mm128C2
 		h1 ^= k1
 
-		h1 = rol64_27(h1)
+		h1 = rol64(h1, 27)
 		h1 += h2
 		h1 = h1*5 + 0x52dce729
 
 		k2 *= mm128C2
-		k2 = rol64_33(k2)
+		k2 = rol64(k2, 33)
 		k2 *= mm128C1
 		h2 ^= k2
 
-		h2 = rol64_31(h2)
+		h2 = rol64(h2, 31)
 		h2 += h1
 		h2 = h2*5 + 0x38495ab5
 	}
@@ -263,7 +263,7 @@ func MM128String(data string) (h1, h2 uint64) {
 		k2 ^= uint64(data[hlen+8]) << 0
 
 		k2 *= mm128C2
-		k2 = rol64_33(k2)
+		k2 = rol64(k2, 33)
 		k2 *= mm128C1
 		h2 ^= k2
 
@@ -292,7 +292,7 @@ func MM128String(data string) (h1, h2 uint64) {
 	case 1:
 		k1 ^= uint64(data[hlen+0]) << 0
 		k1 *= mm128C1
-		k1 = rol64_31(k1)
+		k1 = rol64(k1, 31)
 		k1 *= mm128C2
 		h1 ^= k1
 	}

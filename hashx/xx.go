@@ -29,24 +29,24 @@ func XX32(input []byte, seed uint32) uint32 {
 		p := 0
 		for n := n - 16; p <= n; p += 16 {
 			sub := input[p:][:16] //BCE hint for compiler
-			v1 = rol32_13(v1+u32(sub[:])*xxPrime32_2) * xxPrime32_1
-			v2 = rol32_13(v2+u32(sub[4:])*xxPrime32_2) * xxPrime32_1
-			v3 = rol32_13(v3+u32(sub[8:])*xxPrime32_2) * xxPrime32_1
-			v4 = rol32_13(v4+u32(sub[12:])*xxPrime32_2) * xxPrime32_1
+			v1 = rol32(v1+u32(sub[:])*xxPrime32_2, 13) * xxPrime32_1
+			v2 = rol32(v2+u32(sub[4:])*xxPrime32_2, 13) * xxPrime32_1
+			v3 = rol32(v3+u32(sub[8:])*xxPrime32_2, 13) * xxPrime32_1
+			v4 = rol32(v4+u32(sub[12:])*xxPrime32_2, 13) * xxPrime32_1
 		}
 		input = input[p:]
 		n -= p
-		h32 += rol32_1(v1) + rol32_7(v2) + rol32_12(v3) + rol32_18(v4)
+		h32 += rol32(v1, 1) + rol32(v2, 7) + rol32(v3, 12) + rol32(v4, 18)
 	}
 
 	p := 0
 	for n := n - 4; p <= n; p += 4 {
 		h32 += u32(input[p:p+4]) * xxPrime32_3
-		h32 = rol32_17(h32) * xxPrime32_4
+		h32 = rol32(h32, 17) * xxPrime32_4
 	}
 	for p < n {
 		h32 += uint32(input[p]) * xxPrime32_5
-		h32 = rol32_11(h32) * xxPrime32_1
+		h32 = rol32(h32, 11) * xxPrime32_1
 		p++
 	}
 
@@ -83,23 +83,23 @@ func XX64(data []byte, seed uint64) uint64 {
 		p := 0
 		for n := n - 32; p <= n; p += 32 {
 			sub := data[p:][:32] //BCE hint for compiler
-			v1 = rol64_31(v1+u64(sub[:])*xxPrime64_2) * xxPrime64_1
-			v2 = rol64_31(v2+u64(sub[8:])*xxPrime64_2) * xxPrime64_1
-			v3 = rol64_31(v3+u64(sub[16:])*xxPrime64_2) * xxPrime64_1
-			v4 = rol64_31(v4+u64(sub[24:])*xxPrime64_2) * xxPrime64_1
+			v1 = rol64(v1+u64(sub[:])*xxPrime64_2, 31) * xxPrime64_1
+			v2 = rol64(v2+u64(sub[8:])*xxPrime64_2, 31) * xxPrime64_1
+			v3 = rol64(v3+u64(sub[16:])*xxPrime64_2, 31) * xxPrime64_1
+			v4 = rol64(v4+u64(sub[24:])*xxPrime64_2, 31) * xxPrime64_1
 		}
 
-		h64 = rol64_1(v1) + rol64_7(v2) + rol64_12(v3) + rol64_18(v4)
+		h64 = rol64(v1, 1) + rol64(v2, 7) + rol64(v3, 12) + rol64(v4, 18)
 
 		v1 *= xxPrime64_2
 		v2 *= xxPrime64_2
 		v3 *= xxPrime64_2
 		v4 *= xxPrime64_2
 
-		h64 = (h64^(rol64_31(v1)*xxPrime64_1))*xxPrime64_1 + xxPrime64_4
-		h64 = (h64^(rol64_31(v2)*xxPrime64_1))*xxPrime64_1 + xxPrime64_4
-		h64 = (h64^(rol64_31(v3)*xxPrime64_1))*xxPrime64_1 + xxPrime64_4
-		h64 = (h64^(rol64_31(v4)*xxPrime64_1))*xxPrime64_1 + xxPrime64_4
+		h64 = (h64^(rol64(v1, 31)*xxPrime64_1))*xxPrime64_1 + xxPrime64_4
+		h64 = (h64^(rol64(v2, 31)*xxPrime64_1))*xxPrime64_1 + xxPrime64_4
+		h64 = (h64^(rol64(v3, 31)*xxPrime64_1))*xxPrime64_1 + xxPrime64_4
+		h64 = (h64^(rol64(v4, 31)*xxPrime64_1))*xxPrime64_1 + xxPrime64_4
 
 		h64 += uint64(n)
 
@@ -112,18 +112,18 @@ func XX64(data []byte, seed uint64) uint64 {
 	p := 0
 	for n := n - 8; p <= n; p += 8 {
 		sub := data[p : p+8]
-		h64 ^= rol64_31(u64(sub)*xxPrime64_2) * xxPrime64_1
-		h64 = rol64_27(h64)*xxPrime64_1 + xxPrime64_4
+		h64 ^= rol64(u64(sub)*xxPrime64_2, 31) * xxPrime64_1
+		h64 = rol64(h64, 27)*xxPrime64_1 + xxPrime64_4
 	}
 	if p+4 <= n {
 		sub := data[p : p+4]
 		h64 ^= uint64(u32(sub)) * xxPrime64_1
-		h64 = rol64_23(h64)*xxPrime64_2 + xxPrime64_3
+		h64 = rol64(h64, 23)*xxPrime64_2 + xxPrime64_3
 		p += 4
 	}
 	for ; p < n; p++ {
 		h64 ^= uint64(data[p]) * xxPrime64_5
-		h64 = rol64_11(h64) * xxPrime64_1
+		h64 = rol64(h64, 11) * xxPrime64_1
 	}
 
 	h64 ^= h64 >> 33

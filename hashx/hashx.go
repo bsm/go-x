@@ -1,6 +1,8 @@
 // Package hashx implements allocation-free standard hashing functions
 package hashx
 
+import "math/bits"
+
 func u64s(s string, offset int) uint64 {
 	return uint64(s[offset+0]) | uint64(s[offset+1])<<8 | uint64(s[offset+2])<<16 | uint64(s[offset+3])<<24 | uint64(s[offset+4])<<32 | uint64(s[offset+5])<<40 | uint64(s[offset+6])<<48 | uint64(s[offset+7])<<56
 }
@@ -27,55 +29,5 @@ func fmix(k uint64) uint64 {
 	return k
 }
 
-func rol64_1(u uint64) uint64 {
-	return u<<1 | u>>63
-}
-func rol64_7(u uint64) uint64 {
-	return u<<7 | u>>57
-}
-func rol64_11(u uint64) uint64 {
-	return u<<11 | u>>53
-}
-func rol64_12(u uint64) uint64 {
-	return u<<12 | u>>52
-}
-func rol64_18(u uint64) uint64 {
-	return u<<18 | u>>46
-}
-func rol64_23(u uint64) uint64 {
-	return u<<23 | u>>41
-}
-func rol64_27(u uint64) uint64 {
-	return u<<27 | u>>37
-}
-func rol64_31(u uint64) uint64 {
-	return u<<31 | u>>33
-}
-func rol64_33(u uint64) uint64 {
-	return u<<33 | u>>31
-}
-
-func rol32_1(u uint32) uint32 {
-	return u<<1 | u>>31
-}
-func rol32_7(u uint32) uint32 {
-	return u<<7 | u>>25
-}
-func rol32_11(u uint32) uint32 {
-	return u<<11 | u>>21
-}
-func rol32_12(u uint32) uint32 {
-	return u<<12 | u>>20
-}
-func rol32_13(u uint32) uint32 {
-	return u<<13 | u>>19
-}
-func rol32_15(u uint32) uint32 {
-	return u<<15 | u>>17
-}
-func rol32_17(u uint32) uint32 {
-	return u<<17 | u>>15
-}
-func rol32_18(u uint32) uint32 {
-	return u<<18 | u>>14
-}
+func rol64(u uint64, k int) uint64 { return bits.RotateLeft64(u, k) }
+func rol32(u uint32, k int) uint32 { return bits.RotateLeft32(u, k) }
