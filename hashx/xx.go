@@ -77,10 +77,10 @@ func XX32String(input string, seed uint32) uint32 {
 		p := 0
 		for n := n - 16; p <= n; p += 16 {
 			sub := input[p:][:16] //BCE hint for compiler
-			v1 = rol32(v1+u32s(sub, 0)*xxPrime32_2, 13) * xxPrime32_1
-			v2 = rol32(v2+u32s(sub, 4)*xxPrime32_2, 13) * xxPrime32_1
-			v3 = rol32(v3+u32s(sub, 8)*xxPrime32_2, 13) * xxPrime32_1
-			v4 = rol32(v4+u32s(sub, 12)*xxPrime32_2, 13) * xxPrime32_1
+			v1 = rol32(v1+u32s(sub)*xxPrime32_2, 13) * xxPrime32_1
+			v2 = rol32(v2+u32s(sub[4:])*xxPrime32_2, 13) * xxPrime32_1
+			v3 = rol32(v3+u32s(sub[8:])*xxPrime32_2, 13) * xxPrime32_1
+			v4 = rol32(v4+u32s(sub[12:])*xxPrime32_2, 13) * xxPrime32_1
 		}
 		input = input[p:]
 		n -= p
@@ -89,7 +89,7 @@ func XX32String(input string, seed uint32) uint32 {
 
 	p := 0
 	for n := n - 4; p <= n; p += 4 {
-		h32 += u32s(input[p:p+4], 0) * xxPrime32_3
+		h32 += u32s(input[p:]) * xxPrime32_3
 		h32 = rol32(h32, 17) * xxPrime32_4
 	}
 	for p < n {
@@ -199,10 +199,10 @@ func XX64String(data string, seed uint64) uint64 {
 		p := 0
 		for n := n - 32; p <= n; p += 32 {
 			sub := data[p:][:32] //BCE hint for compiler
-			v1 = rol64(v1+u64s(sub, 0)*xxPrime64_2, 31) * xxPrime64_1
-			v2 = rol64(v2+u64s(sub, 8)*xxPrime64_2, 31) * xxPrime64_1
-			v3 = rol64(v3+u64s(sub, 16)*xxPrime64_2, 31) * xxPrime64_1
-			v4 = rol64(v4+u64s(sub, 24)*xxPrime64_2, 31) * xxPrime64_1
+			v1 = rol64(v1+u64s(sub[0:])*xxPrime64_2, 31) * xxPrime64_1
+			v2 = rol64(v2+u64s(sub[8:])*xxPrime64_2, 31) * xxPrime64_1
+			v3 = rol64(v3+u64s(sub[16:])*xxPrime64_2, 31) * xxPrime64_1
+			v4 = rol64(v4+u64s(sub[24:])*xxPrime64_2, 31) * xxPrime64_1
 		}
 
 		h64 = rol64(v1, 1) + rol64(v2, 7) + rol64(v3, 12) + rol64(v4, 18)
@@ -228,12 +228,12 @@ func XX64String(data string, seed uint64) uint64 {
 	p := 0
 	for n := n - 8; p <= n; p += 8 {
 		sub := data[p : p+8]
-		h64 ^= rol64(u64s(sub, 0)*xxPrime64_2, 31) * xxPrime64_1
+		h64 ^= rol64(u64s(sub[0:])*xxPrime64_2, 31) * xxPrime64_1
 		h64 = rol64(h64, 27)*xxPrime64_1 + xxPrime64_4
 	}
 	if p+4 <= n {
 		sub := data[p : p+4]
-		h64 ^= uint64(u32s(sub, 0)) * xxPrime64_1
+		h64 ^= uint64(u32s(sub[0:])) * xxPrime64_1
 		h64 = rol64(h64, 23)*xxPrime64_2 + xxPrime64_3
 		p += 4
 	}

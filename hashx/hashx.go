@@ -1,23 +1,33 @@
 // Package hashx implements allocation-free standard hashing functions
 package hashx
 
-import "math/bits"
+import (
+	"encoding/binary"
+	"math/bits"
+)
 
-func u64s(s string, offset int) uint64 {
-	return uint64(s[offset+0]) | uint64(s[offset+1])<<8 | uint64(s[offset+2])<<16 | uint64(s[offset+3])<<24 | uint64(s[offset+4])<<32 | uint64(s[offset+5])<<40 | uint64(s[offset+6])<<48 | uint64(s[offset+7])<<56
+func u64s(s string) uint64 {
+	return uint64(s[0]) | uint64(s[1])<<8 | uint64(s[2])<<16 | uint64(s[3])<<24 | uint64(s[4])<<32 | uint64(s[5])<<40 | uint64(s[6])<<48 | uint64(s[7])<<56
 }
 
-func u32s(s string, offset int) uint32 {
-	return uint32(s[offset+0]) | uint32(s[offset+1])<<8 | uint32(s[offset+2])<<16 | uint32(s[offset+3])<<24
+func u32s(s string) uint32 {
+	return uint32(s[0]) | uint32(s[1])<<8 | uint32(s[2])<<16 | uint32(s[3])<<24
+}
+
+func u16s(s string) uint32 {
+	return uint32(s[0]) | uint32(s[1])<<8
 }
 
 func u64(buf []byte) uint64 {
-	// go compiler recognizes this pattern and optimizes it on little endian platforms
-	return uint64(buf[0]) | uint64(buf[1])<<8 | uint64(buf[2])<<16 | uint64(buf[3])<<24 | uint64(buf[4])<<32 | uint64(buf[5])<<40 | uint64(buf[6])<<48 | uint64(buf[7])<<56
+	return binary.LittleEndian.Uint64(buf)
 }
 
 func u32(buf []byte) uint32 {
-	return uint32(buf[0]) | uint32(buf[1])<<8 | uint32(buf[2])<<16 | uint32(buf[3])<<24
+	return binary.LittleEndian.Uint32(buf)
+}
+
+func u16(buf []byte) uint16 {
+	return binary.LittleEndian.Uint16(buf)
 }
 
 func fmix(k uint64) uint64 {

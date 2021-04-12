@@ -58,7 +58,7 @@ func MM32(data []byte) (h1 uint32) {
 func MM32String(data string) (h1 uint32) {
 	nblocks := len(data) / 4
 	for b := 0; b < nblocks; b++ {
-		k1 := u32s(data, b*4)
+		k1 := u32s(data[b*4:])
 
 		k1 *= mm32C1
 		k1 = rol32(k1, 15)
@@ -215,8 +215,8 @@ func MM128(data []byte) (h1, h2 uint64) {
 func MM128String(data string) (h1, h2 uint64) {
 	nblocks := len(data) / 16
 	for b := 0; b < nblocks; b++ {
-		k1 := u64s(data, b*16)
-		k2 := u64s(data, b*16+8)
+		k1 := u64s(data[b*16:])
+		k2 := u64s(data[b*16+8:])
 
 		k1 *= mm128C1
 		k1 = rol64(k1, 31)
